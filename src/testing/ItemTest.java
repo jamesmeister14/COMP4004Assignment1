@@ -56,7 +56,7 @@ public class ItemTest {
 	}
 	@Test
 	public void ISBNSetterTest() {
-		item.setISBN("1112223334445");;
+		item.setISBN("1112223334445");
 		assertEquals("1112223334445",item.getISBN());
 		
 	}
