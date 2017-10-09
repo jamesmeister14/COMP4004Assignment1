@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import server.logic.model.Item;
 import server.logic.tables.ItemTable;
+//import server.logic.tables.LoanTable;
 
 
 public class ItemTableTest {
@@ -66,6 +67,20 @@ public class ItemTableTest {
 		items.deleteAll("9781611687910");
 		assertEquals(false, items.lookup("9781611687910", "1"));
 		
+	}
+	
+	@Test
+	public void deleteItemFailTest() {
+		assertEquals("Active Loan Exists", itemTable.delete("9781442668584", "1"));
+		//"Active Loan Exists"
+		
+		assertEquals("The Item Does Not Exist", itemTable.delete("1111111111111", "1"));
+	    //"The Item Does Not Exist
+	}
+	
+	@Test 
+	public void deleteItemTest() {
+		assertEquals("success", itemTable.delete(itemTable.getItemTable().get(itemTable.getItemTable().size() - 1).getISBN(), itemTable.getItemTable().get(itemTable.getItemTable().size() - 1).getCopynumber()));
 	}
 
 }
