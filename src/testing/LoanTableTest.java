@@ -46,5 +46,14 @@ public class LoanTableTest {
 		assertEquals(false, loanTable.lookup("9781442668584", "2"));
 		
 	}
-
+	
+	@Test
+	public void checkLoanTest() {
+		assertEquals(true, loanTable.checkLoan("9781442668584", "100"));
+		assertEquals(true, loanTable.checkLoan("1111111111111", "1"));
+		
+		assertEquals(false, loanTable.checkLoan("9781442668584", "1"));
+	}
+	
+	
 }

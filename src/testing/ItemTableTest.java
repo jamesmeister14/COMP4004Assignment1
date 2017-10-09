@@ -8,7 +8,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import server.logic.tables.TitleTable;
 import server.logic.model.Item;
 import server.logic.tables.ItemTable;
 
