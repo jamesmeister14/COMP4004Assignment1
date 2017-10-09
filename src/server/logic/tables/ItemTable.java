@@ -26,6 +26,36 @@ public class ItemTable {
         return ItemListHolder.INSTANCE;
     }
     
+    public Object createitem(String string) {
+		boolean result=true;
+		result=TitleTable.getInstance().lookup(string);
+		if(result){
+		int flag=0;
+		for(int i=0;i<itemList.size();i++){
+			if(itemList.get(i).getISBN().equalsIgnoreCase(string)){
+				flag=flag+1;
+			}else{
+				flag=flag+0;
+			}
+		}
+		Item newitem=new Item(itemList.size(),string,String.valueOf(flag+1));
+		itemList.add(newitem);
+		}else{
+			result=false;
+		}
+		return result;
+	}
+    
+    public void deleteAll(String string) {
+		for(int i=0;i<itemList.size();i++){
+			if(string.equalsIgnoreCase(itemList.get(i).getISBN())){
+				itemList.get(i).setISBN("N/A");
+				itemList.get(i).setCopynumber("N/A");
+			}
+		}
+		
+	}
+    
     public boolean lookup(String string, String string2) {
 		boolean result=true;
 		int flag=0;
