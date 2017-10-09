@@ -49,11 +49,22 @@ public class LoanTableTest {
 	
 	@Test
 	public void checkLoanTest() {
+		//pass
 		assertEquals(true, loanTable.checkLoan("9781442668584", "100"));
 		assertEquals(true, loanTable.checkLoan("1111111111111", "1"));
-		
+		//fail
 		assertEquals(false, loanTable.checkLoan("9781442668584", "1"));
 	}
+	
+	@Test
+	public void checkLoanSingleParameterTest() {
+		//pass
+		assertEquals(true, loanTable.checkLoan("1111111111111"));
+		//fail
+		assertEquals(false, loanTable.checkLoan("9781442668584"));
+	}
+	
+	
 	
 	
 }

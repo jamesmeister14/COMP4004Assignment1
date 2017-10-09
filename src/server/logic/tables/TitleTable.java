@@ -5,6 +5,7 @@ import java.util.List;
 
 import server.logic.model.Title;
 
+
 public class TitleTable {
 	List<Title> titleList=new ArrayList<Title>();
     private static class TitleListHolder {
