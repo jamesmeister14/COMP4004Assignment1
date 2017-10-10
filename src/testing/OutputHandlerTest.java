@@ -111,4 +111,17 @@ public class OutputHandlerTest {
 		assertEquals("Your input should in this format:'useremail'", jamie2.getOutput());
 	}
 	
+	@Test
+	public void DeleteTitleTest(){
+		//pass
+		Output jamie = outputhandler.deleteTitle("9781317594277");
+		assertEquals(2, jamie.getState());
+		assertEquals("Success!", jamie.getOutput());
+		
+		//fail
+		Output jamie2 = outputhandler.deleteTitle("The act in context");
+		assertEquals(8, jamie2.getState());
+		assertEquals("Your input should in this format:'ISBN',ISBN should be a 13-digit number", jamie2.getOutput());
+		
+	}
 }
