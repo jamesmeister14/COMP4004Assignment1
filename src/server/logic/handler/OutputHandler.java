@@ -2,6 +2,7 @@ package server.logic.handler;
 
 
 import server.logic.handler.model.Output;
+import server.logic.tables.ItemTable;
 import server.logic.tables.TitleTable;
 import server.logic.tables.UserTable;
 
@@ -12,6 +13,7 @@ public class OutputHandler {
     public static final int USER = 3;
     public static final int CREATEUSER=4;
     public static final int CREATETITLE=5;
+    public static final int CREATEITEM=6;
     
     public Output createUser(String input) {
 		Output output=new Output("",0);
@@ -55,6 +57,26 @@ public class OutputHandler {
 		return output;
 	}
     
+    public Output createItem(String input) {
+		Output output=new Output("",0);
+		String[] strArray = null;   
+        strArray = input.split(",");
+        boolean number=isInteger(strArray[0]);
+        Object result="";
+        if(strArray.length!=1 || number!=true){
+        	output.setOutput("Your input should in this format:'ISBN',ISBN should be a 13-digit number");
+        	output.setState(CREATEITEM);
+        }else{
+        	result=ItemTable.getInstance().createitem(strArray[0]);
+        	if(result.equals(true)){
+        		output.setOutput("Success!");
+        	}else{
+        		output.setOutput("The Title Does Not Exists!");
+        	}
+        	output.setState(CLERK);
+        }
+		return output;
+	}
     
     
     public static boolean isInteger(String value) {

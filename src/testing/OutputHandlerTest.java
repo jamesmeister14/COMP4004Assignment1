@@ -9,8 +9,10 @@ import org.junit.Test;
 
 import server.logic.handler.model.Output;
 import server.logic.handler.OutputHandler;
+import server.logic.model.Item;
 import server.logic.model.Title;
 import server.logic.model.User;
+import server.logic.tables.ItemTable;
 import server.logic.tables.TitleTable;
 import server.logic.tables.UserTable;
 
@@ -18,6 +20,7 @@ public class OutputHandlerTest {
 	UserTable userTable;
 	OutputHandler outputhandler;
 	TitleTable titleTable;
+	ItemTable itemTable;
 	
 	
 	@Before 
@@ -25,6 +28,7 @@ public class OutputHandlerTest {
 		userTable = UserTable.getInstance();
 		outputhandler = new OutputHandler();
 		titleTable = TitleTable.getInstance();
+		itemTable = ItemTable.getInstance();
 	}
 	
 	@Test
@@ -62,6 +66,7 @@ public class OutputHandlerTest {
 	
 	@Test
 	public void createTitleTest() {
+		//pass
 		Output jamie = outputhandler.createTitle("1234567890123,The old man and the Sea");
 		
 		assertEquals(2, jamie.getState());
@@ -70,6 +75,27 @@ public class OutputHandlerTest {
 		List<Title> titles = titleTable.getTitleTable();
 		assertEquals("1234567890123", titles.get(titles.size()-1).getISBN());
 		assertEquals("The old man and the Sea", titles.get(titles.size()-1).getBooktitle());
+		//fail
+		Output jamie2 = outputhandler.createTitle("The old man and the Sea");
+		
+		assertEquals(5, jamie2.getState());
+		assertEquals("Your input should in this format:'ISBN,title',ISBN should be a 13-digit number", jamie2.getOutput());
+	}
+	
+	@Test
+	public void createItemTest() {
+		//pass
+		Output jamie = outputhandler.createItem("1234567890123");
+		List<Item> items = itemTable.getItemTable();
+		
+		assertEquals(2, jamie.getState());
+		assertEquals("Success!", jamie.getOutput());
+		assertEquals("1234567890123", items.get(items.size()-1).getISBN());
+		
+		//fail
+		Output jamie2 = outputhandler.createItem("123456789012");
+		assertEquals(6, jamie2.getState());
+		assertEquals("Your input should in this format:'ISBN',ISBN should be a 13-digit number", jamie2.getOutput());
 	}
 	
 }
