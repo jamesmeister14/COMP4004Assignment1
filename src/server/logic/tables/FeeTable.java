@@ -19,6 +19,8 @@ public class FeeTable {
     	//set up the default list with some instances
     	Fee fee=new Fee(0,5);
     	feeList.add(fee);
+    	Fee fee2=new Fee(1,6);
+    	feeList.add(fee2);
     	Initialization();
     };
     public static final FeeTable getInstance() {
@@ -92,6 +94,34 @@ public class FeeTable {
 		}
 		
 		
+	}
+	
+	public Object payfine(int i) {
+		String result="";
+		boolean oloan=LoanTable.getInstance().looklimit(i);
+		int fee=0;
+		int index=0;
+		boolean user=FeeTable.getInstance().checkuser(i);
+		if(user){
+			for(int m=0;m<feeList.size();m++){
+				if(feeList.get(m).getUserid()==i){
+					fee=feeList.get(m).getFee();
+					index=m;
+				}else{
+					fee=0;
+				}
+			}
+		}else{
+			fee=0;
+		}
+		if(oloan==true){
+			result="Borrowing Items Exist";
+		}else{
+			feeList.get(index).setUserid(i);
+			feeList.get(index).setFee(0);
+			result="success";
+		}
+		return result;
 	}
 	
 	public void Initialization(){
