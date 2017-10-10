@@ -124,4 +124,19 @@ public class OutputHandlerTest {
 		assertEquals("Your input should in this format:'ISBN',ISBN should be a 13-digit number", jamie2.getOutput());
 		
 	}
+	
+	@Test
+	public void DeleteItemTest(){
+		//pass
+		Output jamie = outputhandler.deleteItem("9781611687910,1");
+		assertEquals(2, jamie.getState());
+		assertEquals("Success!", jamie.getOutput());
+		
+		//fail
+		Output jamie2 = outputhandler.deleteItem("9781317594277");
+		assertEquals(9, jamie2.getState());
+		assertEquals("Your input should in this format:'ISBN,copynumber',ISBN should be a 13-digit number", jamie2.getOutput());
+		
+	}
+	
 }
