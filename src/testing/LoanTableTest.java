@@ -4,11 +4,12 @@ import static org.junit.Assert.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
-
+import server.logic.model.Loan;
 import server.logic.tables.LoanTable;
 
 public class LoanTableTest {
@@ -64,7 +65,41 @@ public class LoanTableTest {
 		assertEquals(false, loanTable.checkLoan("9781442668584"));
 	}
 	
+	@Test
+	public void checkUserTest() {
+		//pass
+		//this test failed once because the date was off by milliseconds
+		//every other time it ran fine
+		assertEquals(true, loanTable.checkUser(1));
+		//fail
+		assertEquals(false, loanTable.checkUser(0));
+	}
 	
+	@Test
+	public void checkLimitTest() {
+		//pass
+		assertEquals(true, loanTable.checkLimit(0));
+		assertEquals(true, loanTable.checkLimit(324));
+		//fail, need to get to maxed borrowed items
+		List<Loan> Loans = loanTable.getLoanTable();
+		Loan l1 = new Loan(0,"0000000000000","1",new Date(), "0");
+		Loans.add(l1);
+		Loan l2 = new Loan(0,"2222222222222","1",new Date(), "0");
+		Loans.add(l2);
+		Loan l3 = new Loan(0,"3333333333333","1",new Date(), "0");
+		Loans.add(l3);
+		Loan l4 = new Loan(0,"4444444444444","1",new Date(), "0");
+		Loans.add(l4);
+		assertEquals(false,loanTable.checkLimit(0));
+	}
+	
+	@Test
+	public void lookLimitTest() {
+		//pass
+		assertEquals(true, loanTable.looklimit(1));
+		//fail
+		assertEquals(false, loanTable.looklimit(0));
+	}
 	
 	
 }

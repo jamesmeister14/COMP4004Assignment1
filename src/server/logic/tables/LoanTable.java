@@ -6,6 +6,7 @@ import java.util.List;
 
 
 import server.logic.model.Loan;
+import utilities.Config;
 
 public class LoanTable {
 	List<Loan> loanList=new ArrayList<Loan>();
@@ -62,6 +63,57 @@ public class LoanTable {
 		for(int i=0;i<loanList.size();i++){
 			String ISBN=(loanList.get(i)).getIsbn();
 			if(ISBN.equalsIgnoreCase(string)){
+				flag=flag+1;
+			}else{
+				flag=flag+0;	
+			}
+		}
+		if(flag!=0){
+			result=false;
+		}
+		return result;
+	}
+    
+    public boolean checkUser(int j) {
+		boolean result=true;
+		int flag=0;
+		for(int i=0;i<loanList.size();i++){
+			int userid=(loanList.get(i)).getUserid();
+			if(userid==j){
+				flag=flag+1;
+			}else{
+				flag=flag+0;	
+			}
+		}
+		if(flag!=0){
+			result=false;
+		}
+		return result;
+	}
+    
+    public boolean checkLimit(int j) {
+		boolean result=true;
+		int flag=0;
+		for(int i=0;i<loanList.size();i++){
+			int userid=(loanList.get(i)).getUserid();
+			if(userid==j){
+				flag=flag+1;
+			}else{
+				flag=flag+0;	
+			}
+		}
+		if(flag>=Config.MAX_BORROWED_ITEMS){
+			result=false;
+		}
+		return result;
+	}
+    
+    public boolean looklimit(int j) {
+		boolean result=true;
+		int flag=0;
+		for(int i=0;i<loanList.size();i++){
+			int userid=(loanList.get(i)).getUserid();
+			if(userid==j){
 				flag=flag+1;
 			}else{
 				flag=flag+0;	
