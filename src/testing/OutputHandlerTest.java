@@ -98,4 +98,17 @@ public class OutputHandlerTest {
 		assertEquals("Your input should in this format:'ISBN',ISBN should be a 13-digit number", jamie2.getOutput());
 	}
 	
+	@Test
+	public void DeleteUserTest(){
+		//pass
+		Output jamie = outputhandler.deleteUser("Sun@carleton.ca");
+		assertEquals(2, jamie.getState());
+		assertEquals("Success!", jamie.getOutput());
+		
+		//fail
+		Output jamie2 = outputhandler.deleteUser("1234567890123");
+		assertEquals(7, jamie2.getState());
+		assertEquals("Your input should in this format:'useremail'", jamie2.getOutput());
+	}
+	
 }
