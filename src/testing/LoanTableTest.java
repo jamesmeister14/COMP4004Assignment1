@@ -35,6 +35,18 @@ public class LoanTableTest {
 		assertEquals("0", loanTable.getLoanTable().get(0).getRenewstate());
 		
 	}
+	@Test
+	public void createLoanTest() {
+		//pass
+		assertEquals("success", loanTable.createloan(4, "9781442668584", "1", new Date()));
+		
+		//fail
+		assertEquals("The Item is Not Available", loanTable.createloan(1, "9781442667181", "1", new Date()));
+		assertEquals("ISBN Invalid", loanTable.createloan(0, "1234567890123", "1", new Date()));
+		assertEquals("Copynumber Invalid", loanTable.createloan(0, "9781442668584", "0", new Date()));
+		assertEquals("Outstanding Fee Exists", loanTable.createloan(0, "9781442668584", "1", new Date()));
+		
+	}
 	
 	@Test
 	public void lookupLoanTableTest() {
