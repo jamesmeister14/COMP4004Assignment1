@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import server.logic.model.Title;
-
+import server.logic.tables.LoanTable;
 
 public class TitleTable {
 	List<Title> titleList=new ArrayList<Title>();
@@ -24,6 +24,54 @@ public class TitleTable {
     public static final TitleTable getInstance() {
         return TitleListHolder.INSTANCE;
     }
+    
+    public Object createtitle(String string, String string2) {		
+		boolean result=true;
+		int flag=0;
+		for(int i=0;i<titleList.size();i++){
+			String ISBN=(titleList.get(i)).getISBN();
+			if(ISBN.equalsIgnoreCase(string)){
+				flag=flag+1;
+			}else{
+				flag=flag+0;	
+			}
+		}
+		if(flag==0){
+			Title newtitle=new Title(string,string2);
+			result=titleList.add(newtitle);
+		}else{
+			result=false;
+		}
+		return result;	
+	}
+    
+    public Object delete(String string) {
+		String result="";
+		int index=0;
+		int flag=0;
+		for(int i=0;i<titleList.size();i++){
+			if(titleList.get(i).getISBN().equalsIgnoreCase(string)){
+				flag=flag+1;
+				index=i;
+			}else{
+				flag=flag+0;
+			}
+		}
+		if(flag!=0){
+			boolean loan=LoanTable.getInstance().checkLoan(string);
+			if(loan){
+				//String string2=titleList.get(index).getBooktitle();
+				ItemTable.getInstance().deleteAll(string);
+				titleList.remove(index);
+				result="success";
+			}else{
+				result="Active Loan Exists";
+			}
+		}else{
+			result="The Title Does Not Exist";
+		}
+		return result;
+	}
     
 	public boolean lookup(String string) {
 		boolean result=true;
