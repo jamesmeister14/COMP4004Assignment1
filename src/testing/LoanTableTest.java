@@ -70,7 +70,7 @@ public class LoanTableTest {
 		//pass
 		//this test failed once because the date was off by milliseconds
 		//every other time it ran fine
-		assertEquals(true, loanTable.checkUser(1));
+		assertEquals(true, loanTable.checkUser(3));
 		//fail
 		assertEquals(false, loanTable.checkUser(0));
 	}
@@ -96,10 +96,25 @@ public class LoanTableTest {
 	@Test
 	public void lookLimitTest() {
 		//pass
-		assertEquals(true, loanTable.looklimit(1));
+		assertEquals(true, loanTable.looklimit(3));
 		//fail
 		assertEquals(false, loanTable.looklimit(0));
 	}
 	
+	@Test
+	public void returnItemTest() {
+		List<Loan> Loans = loanTable.getLoanTable();
+		assertEquals("success", loanTable.returnItem(Loans.get(loanTable.getLoanTable().size()-1).getUserid(), Loans.get(loanTable.getLoanTable().size()-1).getIsbn(), Loans.get(loanTable.getLoanTable().size()-1).getCopynumber(), new Date()));
+		assertEquals("The Loan Does Not Exist", loanTable.returnItem(1, "1111111111111", "1", new Date()));
+	}
 	
+	@Test
+	public void renewItemTest() {
+		
+		List<Loan> Loans = loanTable.getLoanTable();
+		assertEquals("success", loanTable.renewal(Loans.get(loanTable.getLoanTable().size()-1).getUserid(), Loans.get(loanTable.getLoanTable().size()-1).getIsbn(), Loans.get(loanTable.getLoanTable().size()-1).getCopynumber(), new Date()));
+		
+		assertEquals("The loan does not exist", loanTable.renewal(1233,"1111111111111","1",new Date()));
+		assertEquals("Outstanding Fee Exists", loanTable.renewal(0,"4444444444444","1",new Date()));
+	}
 }

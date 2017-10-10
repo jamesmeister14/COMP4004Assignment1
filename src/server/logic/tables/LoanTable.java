@@ -17,6 +17,9 @@ public class LoanTable {
     	//set up the default list with some instances
     	Loan loan=new Loan(0,"9781442668584","1",new Date(),"0");
     	loanList.add(loan);
+    	//added to test renewal
+    	Loan loan2=new Loan(2,"9781442668585","1",new Date(),"0");
+    	loanList.add(loan2);
     };
     public static final LoanTable getInstance() {
         return LoanListHolder.INSTANCE;
@@ -124,9 +127,82 @@ public class LoanTable {
 		}
 		return result;
 	}
+    
+    public Object returnItem(int j, String string, String string2, Date date) {
+		String result="";
+		int flag=0;
+		int index=0;
+		for(int i=0;i<loanList.size();i++){
+			String ISBN=(loanList.get(i)).getIsbn();
+			String copynumber=(loanList.get(i)).getCopynumber();
+			int userid=(loanList.get(i)).getUserid();
+			if((userid==j) && ISBN.equalsIgnoreCase(string) && copynumber.equalsIgnoreCase(string2)){
+				flag=flag+1;
+				index=i;
+			}else{
+				flag=flag+0;	
+			}
+		}
+		if(flag!=0){
+			long time = date.getTime()-loanList.get(index).getDate().getTime();
+			loanList.remove(index);
+			if(time>Config.OVERDUE*Config.STIMULATED_DAY){
+				FeeTable.getInstance().applyfee(j,time);
+			}
+			result="success";
+		}else{
+			result="The Loan Does Not Exist";
+		}
+		
+		return result;
+	}
+    
+    public Object renewal(int j, String string, String string2, Date date) {
+		String result="";
+		int flag=0;
+		int index=0;
+		boolean limit=LoanTable.getInstance().checkLimit(j);
+		boolean fee=FeeTable.getInstance().lookup(j);
+		for(int i=0;i<loanList.size();i++){
+			String ISBN=(loanList.get(i)).getIsbn();
+			String copynumber=(loanList.get(i)).getCopynumber();
+			int userid=(loanList.get(i)).getUserid();
+			if((userid==j) && ISBN.equalsIgnoreCase(string) && copynumber.equalsIgnoreCase(string2)){
+				flag=flag+1;
+				index=i;
+			}else{
+				flag=flag+0;	
+			}
+		}
+		if(limit && fee){
+			if(flag!=0){
+				if(loanList.get(index).getRenewstate().equalsIgnoreCase("0")){
+					loanList.get(index).setUserid(j);
+					loanList.get(index).setIsbn(string);
+					loanList.get(index).setCopynumber(string2);
+					loanList.get(index).setDate(new Date());
+					loanList.get(index).setRenewstate("1");
+					result="success";
+				}else{
+					result="Renewed Item More Than Once for the Same Loan";
+					}
+			}else{
+				result="The loan does not exist";
+			}
+			
+		}else if(limit==false){
+			result="The Maximun Number of Items is Reached";
+		}else if(fee==false){
+			result="Outstanding Fee Exists";
+		}
+		return result;
+	}
+    
     public List<Loan> getLoanTable() {
 		return loanList;
 	}
+    
+    
     
 }
     

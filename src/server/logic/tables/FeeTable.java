@@ -21,6 +21,9 @@ public class FeeTable {
     	feeList.add(fee);
     	Fee fee2=new Fee(1,6);
     	feeList.add(fee2);
+    	//made for renewal test
+    	Fee fee3=new Fee(2,0);
+    	feeList.add(fee3);
     	Initialization();
     };
     public static final FeeTable getInstance() {
