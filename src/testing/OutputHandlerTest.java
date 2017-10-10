@@ -229,4 +229,16 @@ public class OutputHandlerTest {
 		assertEquals("Wrong Password!Please Input The Password:", jamie2.getOutput());
 	}
 	
+	@Test
+	public void userLoginTest() {
+		//pass
+		Output jamie = outputhandler.userLogin("Zhibo@carleton.ca,zhibo");
+		assertEquals(3, jamie.getState());
+		assertEquals("What can I do for you?Menu:Borrow,Renew,Return,Pay Fine.", jamie.getOutput());
+		//fail
+		Output jamie2 = outputhandler.clerkLogin("Zhibo@carleton.ca,potatoe");
+		assertEquals(14, jamie2.getState());
+		assertEquals("Wrong Password!Please Input The Password:", jamie2.getOutput());
+	}
+	
 }
