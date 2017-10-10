@@ -181,4 +181,24 @@ public class OutputHandlerTest {
 		assertEquals("Outstanding Fee Exists!", jamie3.getOutput());
 		
 	}
+	
+	@Test
+	public void returnTest() {
+		//pass
+		Output jamie = outputhandler.returnBook("Zhibo@carleton.ca,9781442668584,1");
+		assertEquals(3, jamie.getState());
+		assertEquals("Success!", jamie.getOutput());
+		//fail
+		Output jamie1 = outputhandler.returnBook("chico@carleton.ca,1234567890123,0");
+		assertEquals(12, jamie1.getState());
+		assertEquals("The User Does Not Exist!", jamie1.getOutput());
+		Output jamie2 = outputhandler.returnBook("Zhibo@carleton.ca,");
+		assertEquals(12, jamie2.getState());
+		assertEquals("Your input should in this format:'useremail,ISBN,copynumber'", jamie2.getOutput());
+		Output jamie3 = outputhandler.returnBook("Zhibo@carleton.ca,1234567890123,0");
+		assertEquals(3, jamie3.getState());
+		assertEquals("The Loan Does Not Exist!", jamie3.getOutput());
+		
+	}
+	
 }
