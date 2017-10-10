@@ -40,5 +40,25 @@ public class UserTableTest {
 		assertEquals(false, userTable.lookup(5));
 		
 	}
-
+	
+	@Test
+	public void createUserTest() {
+		//pass
+		assertEquals(true, userTable.createuser("jamie@carleton.ca", "jamie"));
+		//fail
+		assertEquals(false, userTable.createuser("jamie@carleton.ca", "jamie"));
+	}
+	
+	@Test
+	public void deleteUserTest() {
+		assertEquals("success", userTable.delete(userTable.getUserTable().size()-1));
+		assertEquals("N/A", userTable.getUserTable().get(userTable.getUserTable().size()-1).getUsername());
+	}
+	
+	@Test
+	public void checkUserTest() {
+		assertEquals(0, userTable.checkUser("Zhibo@carleton.ca", "Zhibo"));
+		assertEquals(1, userTable.checkUser("Zhibo@carleton.ca", "chico"));
+		assertEquals(2, userTable.checkUser("Chico@carleton.ca", "Zhibo"));
+	}
 }
