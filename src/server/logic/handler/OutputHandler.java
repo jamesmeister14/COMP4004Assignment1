@@ -15,6 +15,7 @@ public class OutputHandler {
     public static final int CREATETITLE=5;
     public static final int CREATEITEM=6;
     
+    
     public Output createUser(String input) {
 		Output output=new Output("",0);
 		String[] strArray = null;   
