@@ -1,4 +1,4 @@
-package testing;
+package testing.unit;
 
 import static org.junit.Assert.*;
 
@@ -44,7 +44,7 @@ FeeTable feeTable;
 		assertEquals(true, feeTable.checkuser(0));
 		assertEquals(true, feeTable.checkuser(1));
 		//pass
-		assertEquals(false, feeTable.checkuser(2));
+		assertEquals(false, feeTable.checkuser(3));
 				
 	}
 	
