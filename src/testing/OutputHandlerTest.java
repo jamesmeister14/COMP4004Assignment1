@@ -139,4 +139,23 @@ public class OutputHandlerTest {
 		
 	}
 	
+	@Test
+	public void borrowTest() {
+		//pass
+		Output jamie = outputhandler.borrow("Zhibo@carleton.ca,1234567890123,0");
+		assertEquals(3, jamie.getState());
+		assertEquals("Copynumber Invalid!", jamie.getOutput());
+		
+		//fail
+		Output jamie1 = outputhandler.borrow("chico@carleton.ca,1234567890123,0");
+		assertEquals(10, jamie1.getState());
+		assertEquals("The User Does Not Exist!", jamie1.getOutput());
+		Output jamie2 = outputhandler.borrow("Zhibo@carleton.ca,");
+		assertEquals(10, jamie2.getState());
+		assertEquals("Your input should in this format:'useremail,ISBN,copynumber'", jamie2.getOutput());
+		Output jamie3 = outputhandler.borrow("Zhibo@carleton.ca,1234567890123,1");
+		assertEquals(3, jamie3.getState());
+		assertEquals("Copynumber Invalid!", jamie3.getOutput());
+	
+	}
 }
