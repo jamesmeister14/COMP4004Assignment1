@@ -217,4 +217,16 @@ public class OutputHandlerTest {
 		
 	}
 	
+	@Test
+	public void clerkLoginTest() {
+		//pass
+		Output jamie = outputhandler.clerkLogin("admin");
+		assertEquals(2, jamie.getState());
+		assertEquals("What can I do for you?Menu:Create User/Title/Item,Delete User/Title/Item.", jamie.getOutput());
+		//fail
+		Output jamie2 = outputhandler.clerkLogin("notadmin");
+		assertEquals(14, jamie2.getState());
+		assertEquals("Wrong Password!Please Input The Password:", jamie2.getOutput());
+	}
+	
 }
