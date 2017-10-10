@@ -178,7 +178,7 @@ public class OutputHandlerTest {
 		assertEquals("Your input should in this format:'useremail,ISBN,copynumber'", jamie2.getOutput());
 		Output jamie3 = outputhandler.renew("Zhibo@carleton.ca,1234567890123,0");
 		assertEquals(3, jamie3.getState());
-		assertEquals("Outstanding Fee Exists!", jamie3.getOutput());
+		assertEquals("The loan does not exist!", jamie3.getOutput());
 		
 	}
 	
@@ -198,6 +198,22 @@ public class OutputHandlerTest {
 		Output jamie3 = outputhandler.returnBook("Zhibo@carleton.ca,1234567890123,0");
 		assertEquals(3, jamie3.getState());
 		assertEquals("The Loan Does Not Exist!", jamie3.getOutput());
+		
+	}
+	
+	@Test
+	public void payFineTest() {
+		//pass
+		Output jamie = outputhandler.payFine("Zhibo@carleton.ca");
+		assertEquals(3, jamie.getState());
+		assertEquals("Success!", jamie.getOutput());
+		//fail
+		Output jamie1 = outputhandler.payFine("chico@carleton.ca");
+		assertEquals(13, jamie1.getState());
+		assertEquals("The User Does Not Exist!", jamie1.getOutput());
+		Output jamie2 = outputhandler.payFine("Sun@carleton.ca,");
+		assertEquals(3, jamie2.getState());
+		assertEquals("Borrowing Items Exist!", jamie2.getOutput());
 		
 	}
 	
