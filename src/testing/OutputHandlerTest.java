@@ -2,6 +2,7 @@ package testing;
 
 import static org.junit.Assert.*;
 
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
@@ -10,9 +11,11 @@ import org.junit.Test;
 import server.logic.handler.model.Output;
 import server.logic.handler.OutputHandler;
 import server.logic.model.Item;
+import server.logic.model.Loan;
 import server.logic.model.Title;
 import server.logic.model.User;
 import server.logic.tables.ItemTable;
+import server.logic.tables.LoanTable;
 import server.logic.tables.TitleTable;
 import server.logic.tables.UserTable;
 
@@ -21,6 +24,7 @@ public class OutputHandlerTest {
 	OutputHandler outputhandler;
 	TitleTable titleTable;
 	ItemTable itemTable;
+	LoanTable loanTable;
 	
 	
 	@Before 
@@ -157,5 +161,24 @@ public class OutputHandlerTest {
 		assertEquals(3, jamie3.getState());
 		assertEquals("Copynumber Invalid!", jamie3.getOutput());
 	
+	}
+	
+	@Test
+	public void renewTest() {
+		//pass
+		Output jamie = outputhandler.renew("Michelle@carleton.ca,9781442668585,1");
+		assertEquals(3, jamie.getState());
+		assertEquals("Success!", jamie.getOutput());
+		//fail
+		Output jamie1 = outputhandler.renew("chico@carleton.ca,1234567890123,0");
+		assertEquals(11, jamie1.getState());
+		assertEquals("The User Does Not Exist!", jamie1.getOutput());
+		Output jamie2 = outputhandler.renew("Zhibo@carleton.ca,");
+		assertEquals(11, jamie2.getState());
+		assertEquals("Your input should in this format:'useremail,ISBN,copynumber'", jamie2.getOutput());
+		Output jamie3 = outputhandler.renew("Zhibo@carleton.ca,1234567890123,0");
+		assertEquals(3, jamie3.getState());
+		assertEquals("Outstanding Fee Exists!", jamie3.getOutput());
+		
 	}
 }
